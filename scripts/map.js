@@ -21,6 +21,9 @@ $(window).on('load', function() {
       zIndexOffset: zIndexOffset
     });
   }
+  marker.addListener("click", () => {
+    marker.setZIndex(google.maps.Marker.MAX_ZINDEX + 1);
+});
 
 
   /**
