@@ -124,7 +124,7 @@ $(window).on('load', function() {
           'fa',
           point['Marker Color'].toLowerCase(),
           point['Icon Color'],
-                           1
+          point['Zindex']
         );
 
       if (point.Latitude !== '' && point.Longitude !== '') {
