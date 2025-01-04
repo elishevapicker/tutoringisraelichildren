@@ -22,7 +22,7 @@ $(window).on('load', function() {
     });
   }
   marker.addListener("click", () => {
-    marker.setZIndex(google.maps.Marker.MAX_ZINDEX + 1);
+    marker.setZIndex(google.maps.Marker.MAX_ZINDEX - 1);
 });
 
 
