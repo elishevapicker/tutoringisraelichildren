@@ -21,11 +21,6 @@ $(window).on('load', function() {
       zIndexOffset: zIndexOffset
     });
   }
-  marker.addListener("click", () => {
-    marker.setZIndex(google.maps.Marker.MAX_ZINDEX - 1);
-});
-
-
   /**
    * Sets the map view so that all markers are visible, or
    * to specified (lat, lon) and zoom if all three are specified
