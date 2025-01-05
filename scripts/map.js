@@ -12,13 +12,13 @@ $(window).on('load', function() {
   /**
    * Returns an Awesome marker with specified parameters
    */
-  function createMarkerIcon(icon, prefix, markerColor, iconColor, zIndexOffset) {
+  function createMarkerIcon(icon, prefix, markerColor, iconColor) {
     return L.AwesomeMarkers.icon({
       icon: icon,
       prefix: prefix,
       markerColor: markerColor,
-      iconColor: iconColor,
-      zIndexOffset: zIndexOffset
+      iconColor: iconColor
+      
     });
   }
   /**
@@ -121,8 +121,8 @@ $(window).on('load', function() {
         : createMarkerIcon(point['Marker Icon'],
           'fa',
           point['Marker Color'].toLowerCase(),
-          point['Icon Color'],
-          point['Zindex']
+          point['Icon Color']
+          
         );
 
       if (point.Latitude !== '' && point.Longitude !== '') {
