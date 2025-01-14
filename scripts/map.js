@@ -141,7 +141,7 @@ $(window).on('load', function() {
 
     var group = L.featureGroup(markerArray);
     var clusters = (getSetting('_markercluster') === 'on') ? true : false;
-     var clusters = true;
+     
      var markerClusterGroup = L.markerClusterGroup(); 
     // if layers.length === 0, add points to map instead of layer
     if (layers === undefined || layers.length === 0) {
@@ -154,7 +154,7 @@ $(window).on('load', function() {
       if (clusters) {
         // Add multilayer cluster support
         multilayerClusterSupport = L.markerClusterGroup.layerSupport();
-        multilayerClusterSupport.addTo(map);
+     //   multilayerClusterSupport.addTo(map);
 
         for (i in layers) {
           multilayerClusterSupport.checkIn(layers[i]);
