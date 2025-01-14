@@ -142,7 +142,7 @@ $(window).on('load', function() {
     var group = L.featureGroup(markerArray);
     var clusters = (getSetting('_markercluster') === 'on') ? true : false;
      var clusters = true;
-
+     var markerClusterGroup = L.markerClusterGroup(); 
     // if layers.length === 0, add points to map instead of layer
     if (layers === undefined || layers.length === 0) {
       map.addLayer(
