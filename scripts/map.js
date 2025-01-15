@@ -12,15 +12,16 @@ $(window).on('load', function() {
   /**
    * Returns an Awesome marker with specified parameters
    */
-  function createMarkerIcon(icon, prefix, markerColor, iconColor) {
+
+function createMarkerIcon(icon, prefix, markerColor, iconColor) {
     return L.AwesomeMarkers.icon({
       icon: icon,
       prefix: prefix,
       markerColor: markerColor,
       iconColor: iconColor
-      
     });
   }
+
   /**
    * Sets the map view so that all markers are visible, or
    * to specified (lat, lon) and zoom if all three are specified
@@ -122,7 +123,6 @@ $(window).on('load', function() {
           'fa',
           point['Marker Color'].toLowerCase(),
           point['Icon Color']
-          
         );
 
       if (point.Latitude !== '' && point.Longitude !== '') {
@@ -141,8 +141,7 @@ $(window).on('load', function() {
 
     var group = L.featureGroup(markerArray);
     var clusters = (getSetting('_markercluster') === 'on') ? true : false;
-     
-     var markerClusterGroup = L.markerClusterGroup(); 
+
     // if layers.length === 0, add points to map instead of layer
     if (layers === undefined || layers.length === 0) {
       map.addLayer(
@@ -154,7 +153,7 @@ $(window).on('load', function() {
       if (clusters) {
         // Add multilayer cluster support
         multilayerClusterSupport = L.markerClusterGroup.layerSupport();
-     //   multilayerClusterSupport.addTo(map);
+        multilayerClusterSupport.addTo(map);
 
         for (i in layers) {
           multilayerClusterSupport.checkIn(layers[i]);
@@ -686,7 +685,7 @@ $(window).on('load', function() {
     changeAttribution();
 
     // Append icons to categories in markers legend
-    $('#points-legend input+span').each(function(i) { // add to <span> that follows <input>
+    $('#points-legend label span').each(function(i) {
       var g = $(this).text().trim();
       var legendIcon = (group2color[ g ].indexOf('.') > 0)
         ? '<img src="' + group2color[ g ] + '" class="markers-legend-icon">'
@@ -784,9 +783,6 @@ $(window).on('load', function() {
    * Adds polylines to the map
    */
   function processPolylines(p) {
-
-    var lines = Array(p.length); // array to keep track of loaded geojson polylines
-
     if (!p || p.length == 0) return;
 
     var pos = (getSetting('_polylinesLegendPos') == 'off')
@@ -818,18 +814,19 @@ $(window).on('load', function() {
             }
           }
 
-          var line = L.polyline(latlng, {
+          line = L.polyline(latlng, {
             color: (p[index]['Color'] == '') ? 'grey' : p[index]['Color'],
             weight: trySetting('_polylinesWeight', 2),
             pane: 'shadowPane'
-          })
-          
-          lines[index] = line;
-          line.addTo(map);
+          }).addTo(map);
 
           if (p[index]['Description'] && p[index]['Description'] != '') {
             line.bindPopup(p[index]['Description']);
           }
+
+          polylinesLegend.addOverlay(line,
+            '<i class="color-line" style="background-color:' + p[index]['Color']
+            + '"></i> ' + p[index]['Display Name']);
 
           if (index == 0) {
             if (polylinesLegend._container) {
@@ -853,15 +850,8 @@ $(window).on('load', function() {
             }
           }
 
-          if ( lines.filter(Boolean).length == p.length ) { // only if all polylines loaded
+          if (p.length == index + 1) {
             completePolylines = true;
-
-            // Add polylines to the legend - we do this after all lines are loaded
-            for (let j = 0; j < p.length; j++) {
-              polylinesLegend.addOverlay(lines[j],
-                '<i class="color-line" style="background-color:' + p[j]['Color']
-                + '"></i> ' + p[j]['Display Name']);
-            }
           }
         };
       }(i));
@@ -936,23 +926,13 @@ $(window).on('load', function() {
    * Loads the basemap and adds it to the map
    */
   function addBaseMap() {
-
     var basemap = trySetting('_tileProvider', 'CartoDB.Positron');
-    
     L.tileLayer.provider(basemap, {
-      maxZoom: 18,
-
-      // Pass the api key to most commonly used parameters
-      apiKey: trySetting('_tileProviderApiKey', ''),
-      apikey: trySetting('_tileProviderApiKey', ''),
-      key: trySetting('_tileProviderApiKey', ''),
-      accessToken: trySetting('_tileProviderApiKey', '')
+      maxZoom: 18
     }).addTo(map);
-
     L.control.attribution({
       position: trySetting('_mapAttribution', 'bottomright')
     }).addTo(map);
-
   }
 
   /**
